@@ -1,0 +1,27 @@
+body{
+	background-image: url('../img/geometrical.gif');
+	
+}
+
+.card{
+	background-color: #587bb0;
+	background-size: auto;
+	width: 50%;
+	height: 50%;
+}
+
+.card img{
+	width: 50%;
+	height: 75%;
+	border-radius: 50%;
+}
+
+.btn{
+	background-color: #d33742;
+	color: white;
+}
+
+.btn:hover{
+	background-color: #bf343d;
+	color: white;
+}
