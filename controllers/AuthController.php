@@ -76,7 +76,7 @@ function register($request) {
         //Create the transport
          $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
          ->setUsername('teng.aliya@gmail.com')
-         ->setPassword('Soramajiko2');
+         ->setPassword('password');
 
         //create the mailer using your created transport
          $mailer = new Swift_Mailer($transport);
