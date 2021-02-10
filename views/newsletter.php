@@ -9,9 +9,6 @@
   require_once '../controllers/connection.php';
   $title = "HOME";
   function get_content() {
-   if(!isset($_SESSION["user_details"])) {
-    header("Location: /views/forms/login.php");
-   };
   
   if(isset($_GET["filter"])){
     $posts = get_own_posts($_SESSION['user_details']['user_id']);
@@ -154,6 +151,9 @@
           </div>
         <?php endif; ?>
 
+        </div>
+        <div class="card-footer text-muted">
+          <small>Tags: <?php echo $post['name'] ?></small>
         </div>
       </div>
       <?php endforeach; ?>

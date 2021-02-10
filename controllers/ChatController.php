@@ -1,11 +1,13 @@
 <?php 
 require 'connection.php';
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 function add_message($request){
 	global $cn;
 	$message = $request["message"];
 	$date_sent = date('hisa');
 	$id = $request['id'];
+	$timestamp = date('Y:m:d H:i:s');
 
 	//Get all image properties and store it as a variable.
 	$img_name = $_FILES["image"]["name"];
@@ -20,10 +22,8 @@ function add_message($request){
 	$has_details = false; 
 
 	//Did the user upload an image
-	if($img_type == "jpg" || $img_type == "PNG" || $img_type == "JPEG" || $img_type == "SVG" || $img_type == "GIF") {
+	if($img_type == "JPG" || $img_type == "jpg" || $img_type == "PNG" || $img_type == "png" || $img_type == "JPEG" || $img_type == "jpeg" || $img_type == "SVG" || $img_type == "svg" || $img_type == "gif" || $img_type == "GIF") {
 		$is_img = true;
-	} else {
-		echo "Please upload an image file";
 	}
 
 	//Did the user typed in a message
@@ -36,12 +36,28 @@ function add_message($request){
 
 		$query = "INSERT INTO message(user_one, user_two, content, image, date_sent) VALUES (?, ?, ?, ?, ?)";
 	    $stmt = $cn->prepare($query);
-	    $stmt->bind_param("iisss", $user_id, $id, $message, $img_path, $date_sent);
+	    $stmt->bind_param("iisss", $user_id, $id, $message, $img_path, $timestamp);
+	    $stmt->execute();
+	    $stmt->close();
+	} else if($has_details){
+		$query = "INSERT INTO message(user_one, user_two, content, date_sent) VALUES (?, ?, ?, ?)";
+	    $stmt = $cn->prepare($query);
+	    $stmt->bind_param("iiss", $user_id, $id, $message, $timestamp);
 	    $stmt->execute();
 	    $stmt->close();
 	}
 
 	$cn->close();
 	header("Location: ". $_SERVER['HTTP_REFERER']);
+}
+
+function fetch_chat($id){
+	global $cn;
+	$query = "SELECT * FROM message WHERE user_two = $id ORDER BY date_sent ASC";
+    $stmt = $cn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $messages = $result->fetch_all(MYSQLI_ASSOC);
+    return $messages;
 }
 ?>

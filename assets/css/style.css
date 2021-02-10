@@ -99,14 +99,13 @@ SIDEBAR*/
 .panel {
   height: 95%;
   width: 95%;
+  overflow-y: scroll;
 }
 
 /*ROOM.PHP*/
-
 .chat_area{
   max-height: 100%;
   max-width: 100%;
-  overflow-y: scroll;
 }
 
 img.panel{

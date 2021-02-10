@@ -1,6 +1,7 @@
 <?php  
 session_start();
 require_once 'connection.php';
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 //ADD POST
 function store($request) {
@@ -8,6 +9,7 @@ function store($request) {
 	$title = $request["title"];
 	$description = $request["description"];
 	$tag = $request["tag_id"];
+	$timestamp = date('Y-m-d h:i:s');
 
 	//Get all image properties and store it as a variable.
 	$img_name = $_FILES["image"]["name"];
@@ -49,17 +51,21 @@ function store($request) {
 //GET ALL POST
 function index() {
 	global $cn;
-	$query = "SELECT * FROM post";
-	$result = mysqli_query($cn, $query);
-	$posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$query = "SELECT * FROM `post` INNER JOIN `tags` ON post.tag_id = tags.tag_id";
+	$stmt = $cn->prepare($query);
+	$stmt->execute();
+    $result = $stmt->get_result();
+	$posts = $result->fetch_all(MYSQLI_ASSOC);
 	return $posts;
 }
 
 function get_own_posts($id){
 	global $cn;
-	$query = "SELECT * FROM post WHERE user_id = $id";
-	$result = mysqli_query($cn, $query);
-	$posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+	$query = "SELECT * FROM `post` INNER JOIN `tags` ON post.tag_id = tags.tag_id WHERE user_id = $id";
+	$stmt = $cn->prepare($query);
+	$stmt->execute();
+    $result = $stmt->get_result();
+	$posts = $result->fetch_all(MYSQLI_ASSOC);
 	return $posts;
 }
 

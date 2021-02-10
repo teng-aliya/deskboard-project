@@ -7,9 +7,6 @@
 session_start();
 date_default_timezone_set('Asia/Kuala_Lumpur');
 function get_content(){
-	 if(!isset($_SESSION["user_details"])) {
-	 	header("Location: /views/forms/login.php");
-	 };
 	 require '../controllers/connection.php';
 
 	 $user_id = $_SESSION["user_details"]["user_id"]; 

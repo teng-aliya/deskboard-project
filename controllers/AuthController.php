@@ -1,4 +1,6 @@
-<?php  
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once 'connection.php';
 require_once 'vendor/autoload.php';
 
@@ -93,6 +95,23 @@ function register($request) {
 
 }
 
+//UPDATE STATUS
+
+function update_status($request){
+    global $cn;
+    $status = $request['status_id'];
+    $user_id = $_SESSION["user_details"]["user_id"];
+
+    $query = "UPDATE users SET status_id = ? WHERE = ?";
+    $stmt = $cn->prepare($query);
+    $stmt->bind_param("is", $status, $user_id);
+    $stmt->execute();
+    $stmt->close();
+    $cn->close();
+
+    header("Location: ".$_SERVER['REQUEST_URI']);
+}
+
 //LOGIN
 function login($request) {
 	global $cn;
@@ -107,6 +126,14 @@ function login($request) {
     $user = $result->fetch_assoc();
 
     if($user && password_verify($password, $user['password'])){
+        $status = 1;
+        $name = $user['username'];
+        $query = "UPDATE users SET status_id = ? WHERE username = ?";
+        $stmt = $cn->prepare($query);
+        $stmt->bind_param("is", $status, $name);
+        $stmt->execute();
+        $stmt->close();
+
         session_start();
         $_SESSION["user_details"] = $user;
         header("Location: /index.php");
@@ -119,7 +146,24 @@ function login($request) {
 
 //LOGOUT
 function logout() {
-	session_start();
+    global $cn;
+    //session_start();
+
+    $user_id = $_SESSION["user_details"]["user_id"];
+    $query = "SELECT * FROM users WHERE user_id = ?";
+    $stmt = $cn->prepare($query);
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    $status = 4;
+    $name = $user['username'];
+    $status_query = "UPDATE users SET status_id = ? WHERE username = ?";
+    $status_stmt = $cn->prepare($status_query);
+    $status_stmt->bind_param("is", $status, $name);
+    $status_stmt->execute();
+    $status_stmt->close();
 
 	session_unset();
 

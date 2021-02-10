@@ -1,12 +1,10 @@
+<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 <title> Deskboard | HOME</title>
 <?php 
 session_start();
 date_default_timezone_set('Asia/Kuala_Lumpur');
 function get_content(){
-	 if(!isset($_SESSION["user_details"])) {
-	 	header("Location: /views/forms/login.php");
-	 };
-	 require 'controllers/connection.php';
+	require 'controllers/connection.php';
 ?>
 
 <div class="container col-6 offset-3 my-4">
