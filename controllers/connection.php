@@ -1,10 +1,10 @@
 <?php
 
-// LOCAL DATABASE
-$host = "localhost";
-$username = "root";
-$password = "";
-$name = "chat_project";
+// // LOCAL DATABASE
+// $host = "localhost";
+// $username = "root";
+// $password = "";
+// $name = "chat_project";
 
 //DB4FREE
 $host = "db4free.net";
