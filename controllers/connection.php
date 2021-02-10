@@ -7,10 +7,10 @@ $password = "";
 $name = "chat_project";
 
 //DB4FREE
-// $host = "db4free.net";
-// $username = "deskboard_chat";
-// $password = "deskboard";
-// $name = "deskboard_chat";
+$host = "db4free.net";
+$username = "deskboard_chat";
+$password = "deskboard";
+$name = "deskboard_chat";
 
 $cn = new mysqli($host, $username, $password, $name); 
 ?>
